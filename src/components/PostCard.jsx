@@ -1,6 +1,12 @@
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
+import axios from "axios";
 
-export default function PostCard({ id, title, body }) {
+export default function PostCard({ id, title, body, deletePostById }) {
+  const onDeleteclick = async () => {
+    const response = await axios.delete(`http://localhost:3000/posts/${id}`);
+    deletePostById(id);
+  };
+
   return (
     <Col sm key={id}>
       <Card style={{ width: "18rem" }}>
@@ -12,7 +18,9 @@ export default function PostCard({ id, title, body }) {
           <Card.Title>{title}</Card.Title>
           <Card.Text>{body}</Card.Text>
           <Button variant="primary">Update</Button>
-          <Button variant="danger">Delete</Button>
+          <Button variant="danger" onClick={onDeleteclick}>
+            Delete
+          </Button>
         </Card.Body>
       </Card>
     </Col>

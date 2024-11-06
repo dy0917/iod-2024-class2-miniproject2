@@ -8,12 +8,13 @@ function App() {
   const [body, setBody] = useState("");
   const [posts, setPosts] = useState([]);
 
+  const deletePostById = (id) => {
+    const resultList = posts.filter((post) => post.id !== id);
+    setPosts(resultList);
+  };
+
   const formSubmit = async (e) => {
     e.preventDefault();
-    console.log({
-      title,
-      body,
-    });
     const response = await axios.post("http://localhost:3000/posts", {
       title,
       body,
@@ -46,7 +47,7 @@ function App() {
         </Row>
         <Row>
           {posts.map((post) => (
-            <PostCard {...post}></PostCard>
+            <PostCard {...post} deletePostById={deletePostById}></PostCard>
           ))}
         </Row>
       </Container>
