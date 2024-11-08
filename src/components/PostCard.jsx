@@ -1,10 +1,13 @@
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import axios from "axios";
+import { useContext } from "react";
+import { PostContext } from "../context/PostContext";
 
-export default function PostCard({ id, title, body, deletePostById }) {
+export default function PostCard({ id, title, body }) {
+  const { postDispatch } = useContext(PostContext);
   const onDeleteclick = async () => {
     const response = await axios.delete(`http://localhost:3000/posts/${id}`);
-    deletePostById(id);
+    postDispatch({ type: "deletePostById", payload: id });
   };
 
   return (

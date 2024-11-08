@@ -1,17 +1,13 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import PostCard from "./components/PostCard";
+import { PostContext } from "./context/PostContext";
 
 function App() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [posts, setPosts] = useState([]);
-
-  const deletePostById = (id) => {
-    const resultList = posts.filter((post) => post.id !== id);
-    setPosts(resultList);
-  };
+  const { posts, postDispatch } = useContext(PostContext);
 
   const formSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +15,8 @@ function App() {
       title,
       body,
     });
-    setPosts([...posts, response.data.result]);
+    postDispatch({ type: "addPosts", payload: response.data.result });
+    // addPosts(response.data.result);
   };
   return (
     <>
@@ -47,7 +44,7 @@ function App() {
         </Row>
         <Row>
           {posts.map((post) => (
-            <PostCard {...post} deletePostById={deletePostById}></PostCard>
+            <PostCard {...post}></PostCard>
           ))}
         </Row>
       </Container>
