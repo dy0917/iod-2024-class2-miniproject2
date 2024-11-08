@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
-import PostCard from "./components/PostCard";
+import PostUpdateCard from "./components/PostUpdateCard";
 import { PostContext } from "./context/PostContext";
+import PostContainer from "./components/PostContainer";
 
 function App() {
   const [title, setTitle] = useState("");
@@ -44,7 +45,9 @@ function App() {
         </Row>
         <Row>
           {posts.map((post) => (
-            <PostCard {...post}></PostCard>
+            <Col sm key={post.id}>
+              <PostContainer {...post}></PostContainer>
+            </Col>
           ))}
         </Row>
       </Container>
